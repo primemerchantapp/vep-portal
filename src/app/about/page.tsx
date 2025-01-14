@@ -1,61 +1,62 @@
 import { Avatar, Button, Flex, Heading, Icon, IconButton, SmartImage, Tag, Text } from '@/once-ui/components';
 import { baseURL } from '@/app/resources';
 import TableOfContents from '@/components/about/TableOfContents';
-import styles from '@/components/about/about.module.scss'
+import styles from '@/components/about/about.module.scss';
 import { person, about, social } from '@/app/resources/content';
 
 export async function generateMetadata() {
-	const title = about.title;
-	const description = about.description;
-	const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
+    const title = 'About VEP - Virtual Employee Portal';
+    const description = 'Learn more about VEP, the Virtual Employee Portal, and how it revolutionizes remote work.';
+    const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;
 
-	return {
-		title,
-		description,
-		openGraph: {
-			title,
-			description,
-			type: 'website',
-			url: `https://${baseURL}/about`,
-			images: [
-				{
-					url: ogImage,
-					alt: title,
-				},
-			],
-		},
-		twitter: {
-			card: 'summary_large_image',
-			title,
-			description,
-			images: [ogImage],
-		},
-	};
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            type: 'website',
+            url: `https://${baseURL}/about`,
+            images: [
+                {
+                    url: ogImage,
+                    alt: title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: [ogImage],
+        },
+    };
 }
 
 export default function About() {
     const structure = [
-        { 
+        {
             title: about.intro.title,
             display: about.intro.display,
             items: []
         },
-        { 
-            title: about.work.title,
-            display: about.work.display,
-            items: about.work.experiences.map(experience => experience.company)
+        {
+            title: 'VEP Features',
+            display: true,
+            items: ['Remote Collaboration', 'Task Management', 'Employee Engagement']
         },
-        { 
-            title: about.studies.title,
-            display: about.studies.display,
-            items: about.studies.institutions.map(institution => institution.name)
+        {
+            title: 'Our Team',
+            display: true,
+            items: ['Leadership', 'Developers', 'Support']
         },
-        { 
-            title: about.technical.title,
-            display: about.technical.display,
-            items: about.technical.skills.map(skill => skill.title)
+        {
+            title: 'Technical Stack',
+            display: true,
+            items: ['Frontend', 'Backend', 'DevOps']
         },
-    ]
+    ];
+
     return (
         <Flex
             maxWidth="m"
@@ -66,23 +67,18 @@ export default function About() {
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
                         '@context': 'https://schema.org',
-                        '@type': 'Person',
-                        name: person.name,
-                        jobTitle: person.role,
-                        description: about.intro.description,
+                        '@type': 'Organization',
+                        name: 'VEP - Virtual Employee Portal',
+                        description: 'Revolutionizing remote work with seamless collaboration and productivity tools.',
                         url: `https://${baseURL}/about`,
-                        image: `${baseURL}/images/${person.avatar}`,
+                        image: `${baseURL}/images/vep-logo.png`,
                         sameAs: social
-                            .filter((item) => item.link && !item.link.startsWith('mailto:')) // Filter out empty links and email links
+                            .filter((item) => item.link && !item.link.startsWith('mailto:'))
                             .map((item) => item.link),
-                        worksFor: {
-                            '@type': 'Organization',
-                            name: about.work.experiences[0].company || ''
-                        },
                     }),
                 }}
             />
-            { about.tableOfContent.display && (
+            {about.tableOfContent.display && (
                 <Flex
                     style={{ left: '0', top: '50%', transform: 'translateY(-50%)' }}
                     position="fixed"
@@ -96,35 +92,29 @@ export default function About() {
             <Flex
                 fillWidth
                 mobileDirection="column" justifyContent="center">
-                { about.avatar.display && (
+                {about.avatar.display && (
                     <Flex
                         className={styles.avatar}
                         minWidth="160" paddingX="l" paddingBottom="xl" gap="m"
                         flex={3} direction="column" alignItems="center">
                         <Avatar
-                            src={person.avatar}
-                            size="xl"/>
+                            src="/images/vep-logo.png"
+                            size="xl" />
                         <Flex
                             gap="8"
                             alignItems="center">
                             <Icon
                                 onBackground="accent-weak"
-                                name="globe"/>
-                            {person.location}
+                                name="globe" />
+                            Global Remote Team
                         </Flex>
-                        { person.languages.length > 0 && (
-                            <Flex
-                                wrap
-                                gap="8">
-                                {person.languages.map((language, index) => (
-                                    <Tag
-                                        key={index}
-                                        size="l">
-                                        {language}
-                                    </Tag>
-                                ))}
-                            </Flex>
-                        )}
+                        <Flex
+                            wrap
+                            gap="8">
+                            <Tag size="l">Remote Work</Tag>
+                            <Tag size="l">Productivity</Tag>
+                            <Tag size="l">Collaboration</Tag>
+                        </Flex>
                     </Flex>
                 )}
                 <Flex
@@ -149,29 +139,29 @@ export default function About() {
                                 <Flex paddingLeft="12">
                                     <Icon
                                         name="calendar"
-                                        onBackground="brand-weak"/>
+                                        onBackground="brand-weak" />
                                 </Flex>
                                 <Flex
                                     paddingX="8">
-                                    Schedule a call
+                                    Schedule a Demo
                                 </Flex>
                                 <IconButton
                                     href={about.calendar.link}
                                     data-border="rounded"
                                     variant="secondary"
-                                    icon="chevronRight"/>
+                                    icon="chevronRight" />
                             </Flex>
                         )}
                         <Heading
                             className={styles.textAlign}
                             variant="display-strong-xl">
-                            {person.name}
+                            VEP - Virtual Employee Portal
                         </Heading>
                         <Text
                             className={styles.textAlign}
                             variant="display-default-xs"
                             onBackground="neutral-weak">
-                            {person.role}
+                            Empowering Remote Teams
                         </Text>
                         {social.length > 0 && (
                             <Flex
@@ -185,186 +175,119 @@ export default function About() {
                                             prefixIcon={item.icon}
                                             label={item.name}
                                             size="s"
-                                            variant="secondary"/>
+                                            variant="secondary" />
                                     )
                                 ))}
                             </Flex>
                         )}
                     </Flex>
 
-                    { about.intro.display && (
+                    {about.intro.display && (
                         <Flex
                             direction="column"
                             textVariant="body-default-l"
                             fillWidth gap="m" marginBottom="xl">
-                            {about.intro.description}
+                            VEP is a cutting-edge platform designed to streamline remote work, enhance collaboration, and boost productivity. Our mission is to provide a seamless experience for virtual teams worldwide.
                         </Flex>
                     )}
 
-                    { about.work.display && (
-                        <>
-                            <Heading
-                                as="h2"
-                                id={about.work.title}
-                                variant="display-strong-s"
-                                marginBottom="m">
-                                {about.work.title}
-                            </Heading>
+                    <Heading
+                        as="h2"
+                        id="VEP Features"
+                        variant="display-strong-s"
+                        marginBottom="m">
+                        VEP Features
+                    </Heading>
+                    <Flex
+                        direction="column"
+                        fillWidth gap="l" marginBottom="40">
+                        {[
+                            { title: 'Remote Collaboration', description: 'Real-time communication and collaboration tools.' },
+                            { title: 'Task Management', description: 'Efficient task tracking and project management.' },
+                            { title: 'Employee Engagement', description: 'Tools to keep your team motivated and connected.' },
+                        ].map((feature, index) => (
                             <Flex
-                                direction="column"
-                                fillWidth gap="l" marginBottom="40">
-                                {about.work.experiences.map((experience, index) => (
-                                    <Flex
-                                        key={`${experience.company}-${experience.role}-${index}`}
-                                        fillWidth
-                                        direction="column">
-                                        <Flex
-                                            fillWidth
-                                            justifyContent="space-between"
-                                            alignItems="flex-end"
-                                            marginBottom="4">
-                                            <Text
-                                                id={experience.company}
-                                                variant="heading-strong-l">
-                                                {experience.company}
-                                            </Text>
-                                            <Text
-                                                variant="heading-default-xs"
-                                                onBackground="neutral-weak">
-                                                {experience.timeframe}
-                                            </Text>
-                                        </Flex>
-                                        <Text
-                                            variant="body-default-s"
-                                            onBackground="brand-weak"
-                                            marginBottom="m">
-                                            {experience.role}
-                                        </Text>
-                                        <Flex
-                                            as="ul"
-                                            direction="column" gap="16">
-                                            {experience.achievements.map((achievement: JSX.Element, index: number) => (
-                                                <Text
-                                                    as="li"
-                                                    variant="body-default-m"
-                                                    key={`${experience.company}-${index}`}>
-                                                    {achievement}
-                                                </Text>
-                                            ))}
-                                        </Flex>
-                                        {experience.images.length > 0 && (
-                                            <Flex
-                                                fillWidth paddingTop="m" paddingLeft="40"
-                                                wrap>
-                                                {experience.images.map((image, index) => (
-                                                    <Flex
-                                                        key={index}
-                                                        border="neutral-medium"
-                                                        
-                                                        radius="m"
-                                                        minWidth={image.width} height={image.height}>
-                                                        <SmartImage
-                                                            enlarge
-                                                            radius="m"
-                                                            sizes={image.width.toString()}
-                                                            alt={image.alt}
-                                                            src={image.src}/>
-                                                    </Flex>
-                                                ))}
-                                            </Flex>
-                                        )}
-                                    </Flex>
-                                ))}
+                                key={index}
+                                fillWidth gap="4"
+                                direction="column">
+                                <Text
+                                    variant="heading-strong-l">
+                                    {feature.title}
+                                </Text>
+                                <Text
+                                    variant="body-default-m"
+                                    onBackground="neutral-weak">
+                                    {feature.description}
+                                </Text>
                             </Flex>
-                        </>
-                    )}
+                        ))}
+                    </Flex>
 
-                    { about.studies.display && (
-                        <>
-                            <Heading
-                                as="h2"
-                                id={about.studies.title}
-                                variant="display-strong-s"
-                                marginBottom="m">
-                                {about.studies.title}
-                            </Heading>
+                    <Heading
+                        as="h2"
+                        id="Our Team"
+                        variant="display-strong-s"
+                        marginBottom="m">
+                        Our Team
+                    </Heading>
+                    <Flex
+                        direction="column"
+                        fillWidth gap="l" marginBottom="40">
+                        {[
+                            { title: 'Leadership', description: 'Experienced leaders driving innovation.' },
+                            { title: 'Developers', description: 'Talented developers building the future.' },
+                            { title: 'Support', description: 'Dedicated support team ensuring smooth operations.' },
+                        ].map((team, index) => (
                             <Flex
-                                direction="column"
-                                fillWidth gap="l" marginBottom="40">
-                                {about.studies.institutions.map((institution, index) => (
-                                    <Flex
-                                        key={`${institution.name}-${index}`}
-                                        fillWidth gap="4"
-                                        direction="column">
-                                        <Text
-                                            id={institution.name}
-                                            variant="heading-strong-l">
-                                            {institution.name}
-                                        </Text>
-                                        <Text
-                                            variant="heading-default-xs"
-                                            onBackground="neutral-weak">
-                                            {institution.description}
-                                        </Text>
-                                    </Flex>
-                                ))}
+                                key={index}
+                                fillWidth gap="4"
+                                direction="column">
+                                <Text
+                                    variant="heading-strong-l">
+                                    {team.title}
+                                </Text>
+                                <Text
+                                    variant="body-default-m"
+                                    onBackground="neutral-weak">
+                                    {team.description}
+                                </Text>
                             </Flex>
-                        </>
-                    )}
+                        ))}
+                    </Flex>
 
-                    { about.technical.display && (
-                        <>
-                            <Heading
-                                as="h2"
-                                id={about.technical.title}
-                                variant="display-strong-s" marginBottom="40">
-                                {about.technical.title}
-                            </Heading>
+                    <Heading
+                        as="h2"
+                        id="Technical Stack"
+                        variant="display-strong-s"
+                        marginBottom="m">
+                        Technical Stack
+                    </Heading>
+                    <Flex
+                        direction="column"
+                        fillWidth gap="l">
+                        {[
+                            { title: 'Frontend', description: 'React, Tailwind CSS, and TypeScript.' },
+                            { title: 'Backend', description: 'Node.js, FastAPI, and PostgreSQL.' },
+                            { title: 'DevOps', description: 'Docker, Kubernetes, and AWS.' },
+                        ].map((tech, index) => (
                             <Flex
-                                direction="column"
-                                fillWidth gap="l">
-                                {about.technical.skills.map((skill, index) => (
-                                    <Flex
-                                        key={`${skill}-${index}`}
-                                        fillWidth gap="4"
-                                        direction="column">
-                                        <Text
-                                            variant="heading-strong-l">
-                                            {skill.title}
-                                        </Text>
-                                        <Text
-                                            variant="body-default-m"
-                                            onBackground="neutral-weak">
-                                            {skill.description}
-                                        </Text>
-                                        {skill.images && skill.images.length > 0 && (
-                                            <Flex
-                                                fillWidth paddingTop="m" gap="12"
-                                                wrap>
-                                                {skill.images.map((image, index) => (
-                                                    <Flex
-                                                        key={index}
-                                                        border="neutral-medium"
-                                                        
-                                                        radius="m"
-                                                        minWidth={image.width} height={image.height}>
-                                                        <SmartImage
-                                                            enlarge
-                                                            radius="m"
-                                                            sizes={image.width.toString()}
-                                                            alt={image.alt}
-                                                            src={image.src}/>
-                                                    </Flex>
-                                                ))}
-                                            </Flex>
-                                        )}
-                                    </Flex>
-                                ))}
+                                key={index}
+                                fillWidth gap="4"
+                                direction="column">
+                                <Text
+                                    variant="heading-strong-l">
+                                    {tech.title}
+                                </Text>
+                                <Text
+                                    variant="body-default-m"
+                                    onBackground="neutral-weak">
+                                    {tech.description}
+                                </Text>
                             </Flex>
-                        </>
-                    )}
+                        ))}
+                    </Flex>
                 </Flex>
             </Flex>
         </Flex>
     );
-}
+		    }
